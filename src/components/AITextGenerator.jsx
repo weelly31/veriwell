@@ -47,7 +47,7 @@ export default function AITextGenerator() {
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="Describe what you'd like to generate... e.g. 'Write a product description for a smart watch'"
           rows={10}
-          className="w-full min-h-[220px] bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm border-slate-200 dark:border-slate-700 rounded-xl resize-y text-[16px] leading-relaxed focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all placeholder:text-slate-400 px-4 py-3"
+          className="w-full min-h-55 bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm border-slate-200 dark:border-slate-700 rounded-xl resize-y text-[16px] leading-relaxed focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all placeholder:text-slate-400 px-4 py-3"
         />
       </div>
 
@@ -73,7 +73,7 @@ export default function AITextGenerator() {
                   <button
                     key={t}
                     onClick={() => { setTone(t); setShowTones(false); }}
-                    className={`block w-full text-left px-4 py-2.5 text-sm transition-colors flex items-center gap-2 ${
+                    className={`w-full text-left px-4 py-2.5 text-sm transition-colors items-center gap-2 ${
                       tone === t
                         ? "bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-medium"
                         : "text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700"
