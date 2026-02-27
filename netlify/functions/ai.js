@@ -4,7 +4,8 @@ exports.handler = async function(event, context) {
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
-      body: 'Method Not Allowed',
+      body: JSON.stringify({ error: 'Method Not Allowed' }),
+      headers: { 'Content-Type': 'application/json' },
     };
   }
 
@@ -12,7 +13,8 @@ exports.handler = async function(event, context) {
   if (!prompt) {
     return {
       statusCode: 400,
-      body: 'Missing prompt',
+      body: JSON.stringify({ error: 'Missing prompt' }),
+      headers: { 'Content-Type': 'application/json' },
     };
   }
 
@@ -21,7 +23,8 @@ exports.handler = async function(event, context) {
   if (!apiKey) {
     return {
       statusCode: 500,
-      body: 'Missing OpenAI API key',
+      body: JSON.stringify({ error: 'Missing OpenAI API key' }),
+      headers: { 'Content-Type': 'application/json' },
     };
   }
 
@@ -41,15 +44,33 @@ exports.handler = async function(event, context) {
         max_tokens: 512,
       }),
     });
+    if (!response.ok) {
+      const errorText = await response.text();
+      return {
+        statusCode: response.status,
+        body: JSON.stringify({ error: `OpenAI error: ${errorText}` }),
+        headers: { 'Content-Type': 'application/json' },
+      };
+    }
     const data = await response.json();
+    const aiResponse = data.choices?.[0]?.message?.content;
+    if (!aiResponse) {
+      return {
+        statusCode: 502,
+        body: JSON.stringify({ error: 'No response from OpenAI.' }),
+        headers: { 'Content-Type': 'application/json' },
+      };
+    }
     return {
       statusCode: 200,
-      body: JSON.stringify({ result: data.choices?.[0]?.message?.content || '' }),
+      body: JSON.stringify({ result: aiResponse }),
+      headers: { 'Content-Type': 'application/json' },
     };
   } catch (error) {
     return {
       statusCode: 500,
       body: JSON.stringify({ error: error.message }),
+      headers: { 'Content-Type': 'application/json' },
     };
   }
 };
