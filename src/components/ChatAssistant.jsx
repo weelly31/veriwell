@@ -26,18 +26,17 @@ export default function ChatAssistant() {
     setMessages((prev) => [...prev, { role: "user", content: userMsg }]);
     setLoading(true);
     try {
-      const res = await fetch("/.netlify/functions/ai", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: userMsg }),
-      });
-      const data = await res.json();
-      setMessages((prev) => [...prev, { role: "assistant", content: data.result || "No response from AI." }]);
+      // Demo: Provide a mock AI response since backend is removed
+      setTimeout(() => {
+        setMessages((prev) => [...prev, { role: "assistant", content: `AI response to: ${userMsg}` }]);
+        setLoading(false);
+        inputRef.current?.focus();
+      }, 1000);
     } catch (err) {
       setMessages((prev) => [...prev, { role: "assistant", content: "Error: " + (err.message || err) }]);
+      setLoading(false);
+      inputRef.current?.focus();
     }
-    setLoading(false);
-    inputRef.current?.focus();
   };
 
   const clearChat = () => {

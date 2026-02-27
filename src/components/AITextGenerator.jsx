@@ -20,17 +20,15 @@ export default function AITextGenerator() {
     setLoading(true);
     setResult("");
     try {
-      const res = await fetch("/.netlify/functions/ai", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt }),
-      });
-      const data = await res.json();
-      setResult(data.result || "No response from AI.");
+      // Demo: Provide a mock AI result since backend is removed
+      setTimeout(() => {
+        setResult(`Generated text for: "${prompt}"\nTone: ${tone}`);
+        setLoading(false);
+      }, 1000);
     } catch (err) {
       setResult("Error: " + (err.message || err));
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const copyToClipboard = () => {

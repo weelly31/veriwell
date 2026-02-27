@@ -21,20 +21,16 @@ export default function ResumeAnalyzer() {
     if (!file) return;
     setLoading(true);
     try {
-      // For demo: just send the file name and a message. For real use, you'd upload the file and send its content or a link.
-      const prompt = `Analyze this resume file: ${file.name}. Give a detailed assessment, strengths, and improvements.`;
-      const res = await fetch("/.netlify/functions/ai", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt }),
-      });
-      const data = await res.json();
-      setAnalysis({
-        overall_score: 90,
-        summary: data.result || "No analysis from AI.",
-        strengths: ["Strong experience", "Good skills"],
-        improvements: ["Add more details", "Clarify objectives"]
-      });
+      // Demo: Provide a mock analysis result since backend is removed
+      setTimeout(() => {
+        setAnalysis({
+          overall_score: 90,
+          summary: `Analysis for ${file.name}: Strong experience, good skills.`,
+          strengths: ["Strong experience", "Good skills"],
+          improvements: ["Add more details", "Clarify objectives"]
+        });
+        setLoading(false);
+      }, 1000);
     } catch (err) {
       setAnalysis({
         overall_score: 0,
@@ -42,8 +38,8 @@ export default function ResumeAnalyzer() {
         strengths: [],
         improvements: []
       });
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const getScoreColor = (score) => {

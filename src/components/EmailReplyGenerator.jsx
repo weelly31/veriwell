@@ -26,17 +26,15 @@ export default function EmailReplyGenerator() {
     setLoading(true);
     setReply("");
     try {
-      const res = await fetch("/.netlify/functions/ai", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: email }),
-      });
-      const data = await res.json();
-      setReply(data.result || "No reply from AI.");
+      // Demo: Provide a mock AI reply since backend is removed
+      setTimeout(() => {
+        setReply(`Mock reply for: "${email}"\nStyle: ${style}`);
+        setLoading(false);
+      }, 1000);
     } catch (err) {
       setReply("Error: " + (err.message || err));
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const copyToClipboard = () => {
@@ -57,7 +55,7 @@ export default function EmailReplyGenerator() {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Hi, I wanted to follow up on our meeting yesterday regarding the Q3 budget proposal..."
           rows={10}
-          className="w-full min-h-[220px] bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm border-slate-200 dark:border-slate-700 rounded-xl resize-y text-[16px] leading-relaxed focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all placeholder:text-slate-400 px-4 py-3"
+          className="w-full min-h-55 bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm border-slate-200 dark:border-slate-700 rounded-xl resize-y text-[16px] leading-relaxed focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-all placeholder:text-slate-400 px-4 py-3"
         />
       </div>
 
